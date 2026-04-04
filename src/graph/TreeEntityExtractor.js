@@ -679,6 +679,16 @@ class TreeEntityExtractor {
     // Ontology type hints with rdfTypes take HIGHEST priority (Bug 2: type promotion)
     // When the loaded ontology provides a confident type via rdfTypes, it overrides
     // the gazetteer and HEAD_NOUN_TYPE_MAP. This is the "Ontology Overrides" principle.
+    // Check full entity text first (more specific), then head word (fallback).
+    const fullTextLower = (fullText || '').toLowerCase().replace(/^(the|a|an)\s+/i, '').trim();
+    if (this._ontologyTypeHints && this._ontologyTypeHints.has(fullTextLower)) {
+      const fullHint = this._ontologyTypeHints.get(fullTextLower);
+      const fullRdfTypes = (typeof fullHint === 'object' && fullHint.rdfTypes) ? fullHint.rdfTypes : [];
+      if (fullRdfTypes.length > 0) {
+        const resolved = _resolveDomainType(fullRdfTypes);
+        if (resolved) return resolved;
+      }
+    }
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
       const hint = this._ontologyTypeHints.get(headLower);
       const rdfTypes = (typeof hint === 'object' && hint.rdfTypes) ? hint.rdfTypes : [];

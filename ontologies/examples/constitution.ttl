@@ -13,32 +13,27 @@ tagteam:ConstitutionDomainOntology rdf:type owl:Ontology ;
 
 #################################################################
 #    Graph Assembly Properties
-#    These properties are read by _buildPerformativeAct to bind
-#    typed entities to act argument slots without dep tree search.
 #################################################################
 
-###  tagteam:requiresPatient
 tagteam:requiresPatient rdf:type owl:ObjectProperty ;
     rdfs:label "requires patient"@en ;
     rdfs:domain tagteam:PerformativeAct ;
     rdfs:range owl:Class ;
-    rdfs:comment "Declares the ontology class that must be bound as the patient argument of a PerformativeAct. _buildPerformativeAct searches clause entities typed to this class."@en .
+    rdfs:comment "Declares the ontology class bound as patient argument of a PerformativeAct."@en .
 
-###  tagteam:requiresRecipient
 tagteam:requiresRecipient rdf:type owl:ObjectProperty ;
     rdfs:label "requires recipient"@en ;
     rdfs:domain tagteam:PerformativeAct ;
     rdfs:range owl:Class ;
-    rdfs:comment "Declares the ontology class that must be bound as the recipient argument of a PerformativeAct. _buildPerformativeAct searches clause entities typed to this class."@en .
+    rdfs:comment "Declares the ontology class bound as recipient argument of a PerformativeAct."@en .
 
-###  tagteam:preferredDepPosition
 tagteam:preferredDepPosition rdf:type owl:DatatypeProperty ;
     rdfs:label "preferred dependency position"@en ;
-    rdfs:comment "When multiple clause entities match the required type for an argument slot, this property specifies the preferred dependency arc label for disambiguation (e.g., 'obl', 'nsubj:pass'). The entity occupying this arc position is preferred. If no entity occupies the preferred position, the syntactically closest typed entity is used."@en .
+    rdfs:comment "Preferred dependency arc label for multi-candidate disambiguation in argument binding."@en .
 
 
 #################################################################
-#    Constitutional Classes (Subclasses of CCO/BFO)
+#    Constitutional Classes — Foundational
 #################################################################
 
 ###  tagteam:LegislativeBody
@@ -48,7 +43,6 @@ tagteam:LegislativeBody rdf:type owl:Class ;
     rdfs:comment "A government organization formally constituted to enact laws."@en .
 
 ###  tagteam:LegislativePower
-#    Subclasses CCO's Authority, which itself subclasses BFO's Disposition (BFO_0000016)
 tagteam:LegislativePower rdf:type owl:Class ;
     rdfs:subClassOf cco:Authority ;
     rdfs:label "Legislative Power"@en ;
@@ -57,19 +51,12 @@ tagteam:LegislativePower rdf:type owl:Class ;
     rdfs:comment "The authority (a disposition) to make, alter, or repeal laws. Inheres in a Legislative Body."@en .
 
 ###  tagteam:PerformativeAct
-#    Abstract parent class for acts enacted at document ratification.
-#    Gate 1 in _buildPerformativeAct: isSubclassOf(matchedActClass, tagteam:PerformativeAct)
-#    Domain authors subclass this to define new performative act types.
-#    No code changes are needed — TTL authorship alone enables new act production.
 tagteam:PerformativeAct rdf:type owl:Class ;
     rdfs:subClassOf bfo:0000015 ;
     rdfs:label "Performative Act"@en ;
-    rdfs:comment "Abstract class for acts enacted at document ratification or issuance rather than future agent obligations. Subclass this to define new performative act types. Add requiresPatient and requiresRecipient to specify argument bindings."@en .
+    rdfs:comment "Abstract class for acts enacted at document ratification or issuance. Subclass this to define new performative act types."@en .
 
 ###  tagteam:ActOfVesting
-#    Triggers _buildPerformativeAct when verb is matched via altLabel.
-#    requiresPatient / requiresRecipient drive typed entity search for argument binding.
-#    preferredDepPosition on requiresRecipient breaks multi-candidate ties.
 tagteam:ActOfVesting rdf:type owl:Class ;
     rdfs:subClassOf cco:ActOfAuthorization , tagteam:PerformativeAct ;
     rdfs:label "Act of Vesting"@en ;
@@ -79,7 +66,7 @@ tagteam:ActOfVesting rdf:type owl:Class ;
     tagteam:requiresPatient tagteam:LegislativePower ;
     tagteam:requiresRecipient tagteam:LegislativeBody ;
     tagteam:preferredDepPosition "obl"@en ;
-    rdfs:comment "An Act of Authorization wherein supreme legal authority is formally conferred to a government organization. Patient: the power being vested (LegislativePower). Recipient: the bearer receiving the power (LegislativeBody)."@en .
+    rdfs:comment "An Act of Authorization wherein supreme legal authority is formally conferred to a government organization."@en .
 
 ###  tagteam:ConstitutionalDocument
 tagteam:ConstitutionalDocument rdf:type owl:Class ;
@@ -89,31 +76,114 @@ tagteam:ConstitutionalDocument rdf:type owl:Class ;
 
 
 #################################################################
-#    Generalization Test: ActOfLicensing
-#    This class exists solely to verify that the Graph Assembly
-#    Template pattern generalizes without code changes.
-#    A contract law TTL would define classes like this.
-#    Expected result: when a clause matches "ActOfLicensing" and
-#    contains a LicensedProduct and a Licensee, _buildPerformativeAct
-#    produces an Act node and binds hasPatient / hasRecipient
-#    from typed entity search — no JavaScript changes.
+#    Constitutional Classes — Article I Section 2
+#    Added for: "The House of Representatives shall be composed
+#    of Members chosen every second Year by the People of the
+#    several States, and the Electors in each State shall have
+#    the Qualifications requisite for Electors of the most
+#    numerous Branch of the State Legislature."
+#
+#    Note: Neither clause is a PerformativeAct. Both are standing
+#    constitutional structural rules producing Obligation nodes.
+#    "Shall be composed" defines ongoing House composition.
+#    "Shall have the Qualifications" defines elector franchise
+#    requirements. No ActOfComposition class is added.
 #################################################################
 
-###  tagteam:LicensedProduct
+###  tagteam:HouseMember
+#    A person holding a seat in the House of Representatives.
+#    "Members" in "composed of Members chosen every second Year."
+#    In BFO/CCO terms: a Person bearing the role of House Member.
+tagteam:HouseMember rdf:type owl:Class ;
+    rdfs:subClassOf cco:Person ;
+    rdfs:label "House Member"@en ;
+    skos:altLabel "Members"@en ;
+    skos:altLabel "Member"@en ;
+    rdfs:comment "A person holding a seat in the House of Representatives, chosen every second Year by the People of their State."@en .
+
+###  tagteam:USState
+#    A constituent geopolitical subdivision of the United States.
+#    "the several States" in Article I refers to these entities.
+#    Subclasses GeopoliticalEntity — each State is a sovereign
+#    territory within the federal structure.
+tagteam:USState rdf:type owl:Class ;
+    rdfs:subClassOf cco:GeopoliticalEntity ;
+    rdfs:label "US State"@en ;
+    skos:altLabel "State"@en ;
+    skos:altLabel "States"@en ;
+    skos:altLabel "several States"@en ;
+    rdfs:comment "A constituent geopolitical subdivision of the United States. Each State elects Members to the House of Representatives and defines the qualifications for its own Electors."@en .
+
+###  tagteam:Elector
+#    Constitutional voters — holders of the electoral franchise.
+#    "Electors" in Article I Section 2 means qualified voters,
+#    NOT Electoral College electors (a distinct constitutional role).
+#    The franchise is coextensive with that required for electors
+#    of the most numerous Branch of the State Legislature.
+tagteam:Elector rdf:type owl:Class ;
+    rdfs:subClassOf cco:Person ;
+    rdfs:label "Elector"@en ;
+    skos:altLabel "Electors"@en ;
+    rdfs:comment "A person holding the constitutional franchise to vote in elections for the House of Representatives. Not to be confused with Electoral College electors. Qualification is defined by reference to the most numerous Branch of the State Legislature."@en .
+
+###  tagteam:ElectoralQualification
+#    The constitutional requirements an Elector must satisfy.
+#    "the Qualifications requisite for Electors" — a normative
+#    description prescribing what must be true of an Elector.
+#    In BFO/CCO terms: a NormativeDescription (a subclass of
+#    DirectiveInformationContentEntity) that specifies eligibility
+#    criteria. Each State's qualifications are indexed to those
+#    required for electors of the most numerous Branch of its
+#    State Legislature.
+tagteam:ElectoralQualification rdf:type owl:Class ;
+    rdfs:subClassOf cco:NormativeDescription ;
+    rdfs:label "Electoral Qualification"@en ;
+    skos:altLabel "Qualifications"@en ;
+    skos:altLabel "qualifications"@en ;
+    skos:altLabel "Qualifications requisite"@en ;
+    rdfs:comment "The set of constitutional requirements an Elector must satisfy to hold the franchise. Defined by reference to the qualifications required for electors of the most numerous Branch of the State Legislature."@en .
+
+###  tagteam:StateLegislature
+#    The legislative body of a US State, structurally parallel
+#    to but subordinate in scope to the federal Congress.
+#    Subclasses LegislativeBody — it enacts law within the State.
+tagteam:StateLegislature rdf:type owl:Class ;
+    rdfs:subClassOf tagteam:LegislativeBody ;
+    rdfs:label "State Legislature"@en ;
+    skos:altLabel "State Legislature"@en ;
+    skos:altLabel "Legislature"@en ;
+    rdfs:comment "The legislative body of a US State. Federal elector qualifications are indexed to the qualifications for electors of the most numerous Branch of this body."@en .
+
+###  tagteam:LegislativeChamber
+#    A discrete chamber or branch of a bicameral legislature.
+#    "The most numerous Branch of the State Legislature" is
+#    whichever chamber has the greatest number of members —
+#    typically the lower house of the state legislature.
+#    In BFO mereological terms: a continuant_part_of a Legislature.
+#    Note: "Branch" as used here is legislative (chamber), not
+#    the constitutional sense of executive/legislative/judicial branch.
+tagteam:LegislativeChamber rdf:type owl:Class ;
+    rdfs:subClassOf tagteam:LegislativeBody ;
+    rdfs:label "Legislative Chamber"@en ;
+    skos:altLabel "Branch"@en ;
+    skos:altLabel "most numerous Branch"@en ;
+    rdfs:comment "A discrete chamber of a bicameral legislature. The most numerous Branch of the State Legislature is the chamber with the greatest number of members, whose elector qualifications define the federal elector qualification standard."@en .
+
+
+#################################################################
+#    Generalization Test: ActOfLicensing (unchanged)
+#################################################################
+
 tagteam:LicensedProduct rdf:type owl:Class ;
     rdfs:subClassOf cco:Artifact ;
     rdfs:label "Licensed Product"@en ;
-    rdfs:comment "A product or intellectual property being licensed. Bound as patient in an ActOfLicensing."@en .
+    rdfs:comment "A product or intellectual property being licensed."@en .
 
-###  tagteam:Licensee
 tagteam:Licensee rdf:type owl:Class ;
     rdfs:subClassOf cco:Organization ;
     rdfs:label "Licensee"@en ;
-    rdfs:comment "An organization receiving a license. Bound as recipient in an ActOfLicensing."@en .
+    rdfs:comment "An organization receiving a license."@en .
 
-###  tagteam:ActOfLicensing
-#    Generalization test class. Proves the architecture: define a new
-#    PerformativeAct subclass in TTL, get Act node production for free.
 tagteam:ActOfLicensing rdf:type owl:Class ;
     rdfs:subClassOf cco:ActOfAuthorization , tagteam:PerformativeAct ;
     rdfs:label "Act of Licensing"@en ;
@@ -123,41 +193,54 @@ tagteam:ActOfLicensing rdf:type owl:Class ;
     tagteam:requiresPatient tagteam:LicensedProduct ;
     tagteam:requiresRecipient tagteam:Licensee ;
     tagteam:preferredDepPosition "obl"@en ;
-    rdfs:comment "A PerformativeAct wherein a license is formally granted. Generalization test: loading this TTL and parsing 'The patent is hereby licensed to the corporation' should produce an ActOfLicensing node with hasPatient(patent) and hasRecipient(corporation) without any code changes."@en .
+    rdfs:comment "Generalization test: a PerformativeAct wherein a license is formally granted."@en .
 
-###  tagteam:Patent
-#    Named individual for generalization test
 tagteam:Patent rdf:type owl:NamedIndividual , tagteam:LicensedProduct ;
     rdfs:label "patent"@en ;
     skos:altLabel "the patent"@en .
 
-###  tagteam:TheCorporation
-#    Named individual for generalization test
 tagteam:TheCorporation rdf:type owl:NamedIndividual , tagteam:Licensee ;
     rdfs:label "the corporation"@en ;
     skos:altLabel "corporation"@en .
 
 
 #################################################################
-#    Specific Named Individuals (The Instances)
+#    Named Individuals
 #################################################################
 
-###  The Geopolitical Entity
+###  Geopolitical Entities
 tagteam:UnitedStates rdf:type owl:NamedIndividual , cco:GeopoliticalEntity ;
     rdfs:label "United States"@en .
 
-###  The Organizations
+###  Legislative Bodies (federal)
 tagteam:Congress rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
     rdfs:label "Congress of the United States"@en ;
     skos:altLabel "Congress"@en .
 
 tagteam:Senate rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
     rdfs:label "Senate"@en ;
-    bfo:BFO_0000050 tagteam:Congress .  # mereological part: Senate is part of Congress
+    bfo:BFO_0000050 tagteam:Congress .
 
 tagteam:HouseOfRepresentatives rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
     rdfs:label "House of Representatives"@en ;
-    bfo:BFO_0000050 tagteam:Congress .  # mereological part: HouseOfRepresentatives is part of Congress
+    bfo:BFO_0000050 tagteam:Congress .
+
+###  The sovereign collective
+#    "the People of the several States" is the constitutional
+#    principal in whose name the Constitution is ordained and
+#    from whom the House draws its electoral mandate.
+#    Modeled as a Named Individual because the Constitution treats
+#    "the People" as a specific constitutional actor with standing,
+#    not a generic class of persons.
+#    In BFO/CCO terms: a Group — a specifically dependent collective
+#    of persons bearing shared political authority.
+tagteam:ThePeople rdf:type owl:NamedIndividual , cco:Group ;
+    rdfs:label "the People of the several States"@en ;
+    skos:altLabel "People"@en ;
+    skos:altLabel "the People"@en ;
+    skos:altLabel "people of the several state"@en ;
+    skos:altLabel "people of the several states"@en ;
+    rdfs:comment "The sovereign collective of US citizens in whose name the Constitution is ordained and from whom Members of the House are chosen."@en .
 
 ###  The Document
 tagteam:USConstitution rdf:type owl:NamedIndividual , tagteam:ConstitutionalDocument ;

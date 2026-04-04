@@ -2274,6 +2274,26 @@ class SemanticGraphBuilder {
                   confidence: tag.confidence || 0,
                 });
               }
+              // Also store all tag keywords as hint keys (handles lemmatized altLabels)
+              if (buildOptions._ontologyTagger && buildOptions._ontologyTagger.tagDefinitions) {
+                const matchClass = tag.class || tag.iri;
+                const matchDef = buildOptions._ontologyTagger.tagDefinitions.find(d =>
+                  d.id === matchClass || d.iri === (tag.iri || '')
+                );
+                if (matchDef && matchDef.keywords) {
+                  for (const kw of matchDef.keywords) {
+                    const kwNorm = kw.toLowerCase().trim();
+                    if (kwNorm.length > 2 && !ontologyTypeHints.has(kwNorm)) {
+                      ontologyTypeHints.set(kwNorm, {
+                        label: classLabel,
+                        rdfTypes: mwRdfTypes,
+                        iri: tag.iri || '',
+                        confidence: tag.confidence || 0,
+                      });
+                    }
+                  }
+                }
+              }
               // Also store per-word hints (fallback for partial matches)
               for (const word of ev.split(/\s+/)) {
                 const wl = word.toLowerCase();

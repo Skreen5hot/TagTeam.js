@@ -323830,6 +323830,16 @@ class TreeEntityExtractor {
     // Ontology type hints with rdfTypes take HIGHEST priority (Bug 2: type promotion)
     // When the loaded ontology provides a confident type via rdfTypes, it overrides
     // the gazetteer and HEAD_NOUN_TYPE_MAP. This is the "Ontology Overrides" principle.
+    // Check full entity text first (more specific), then head word (fallback).
+    const fullTextLower = (fullText || '').toLowerCase().replace(/^(the|a|an)\s+/i, '').trim();
+    if (this._ontologyTypeHints && this._ontologyTypeHints.has(fullTextLower)) {
+      const fullHint = this._ontologyTypeHints.get(fullTextLower);
+      const fullRdfTypes = (typeof fullHint === 'object' && fullHint.rdfTypes) ? fullHint.rdfTypes : [];
+      if (fullRdfTypes.length > 0) {
+        const resolved = _resolveDomainType(fullRdfTypes);
+        if (resolved) return resolved;
+      }
+    }
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
       const hint = this._ontologyTypeHints.get(headLower);
       const rdfTypes = (typeof hint === 'object' && hint.rdfTypes) ? hint.rdfTypes : [];
@@ -328283,6 +328293,26 @@ class SemanticGraphBuilder {
                   confidence: tag.confidence || 0,
                 });
               }
+              // Also store all tag keywords as hint keys (handles lemmatized altLabels)
+              if (buildOptions._ontologyTagger && buildOptions._ontologyTagger.tagDefinitions) {
+                const matchClass = tag.class || tag.iri;
+                const matchDef = buildOptions._ontologyTagger.tagDefinitions.find(d =>
+                  d.id === matchClass || d.iri === (tag.iri || '')
+                );
+                if (matchDef && matchDef.keywords) {
+                  for (const kw of matchDef.keywords) {
+                    const kwNorm = kw.toLowerCase().trim();
+                    if (kwNorm.length > 2 && !ontologyTypeHints.has(kwNorm)) {
+                      ontologyTypeHints.set(kwNorm, {
+                        label: classLabel,
+                        rdfTypes: mwRdfTypes,
+                        iri: tag.iri || '',
+                        confidence: tag.confidence || 0,
+                      });
+                    }
+                  }
+                }
+              }
               // Also store per-word hints (fallback for partial matches)
               for (const word of ev.split(/\s+/)) {
                 const wl = word.toLowerCase();
@@ -330559,7 +330589,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 429 | 4980219 | 2026-04-04T10:12:35.908Z',
+    BUILD: 'build 434 | 8af45a2 | 2026-04-04T11:21:27.973Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

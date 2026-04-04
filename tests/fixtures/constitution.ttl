@@ -238,6 +238,8 @@ tagteam:ThePeople rdf:type owl:NamedIndividual , cco:Group ;
     rdfs:label "the People of the several States"@en ;
     skos:altLabel "People"@en ;
     skos:altLabel "the People"@en ;
+    skos:altLabel "people of the several state"@en ;
+    skos:altLabel "people of the several states"@en ;
     rdfs:comment "The sovereign collective of US citizens in whose name the Constitution is ordained and from whom Members of the House are chosen."@en .
 
 ###  The Document
