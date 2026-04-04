@@ -122,6 +122,7 @@ function _resolveDomainType(rdfTypes) {
     if (tl.includes('facility')) return 'Facility';
     if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
     if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+    if (tl.includes('group')) return 'Group';
     if (tl.includes('agent')) return 'Agent';
     if (tl.includes('process') || tl.includes('act')) return 'Process';
   }
