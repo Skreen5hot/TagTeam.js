@@ -76,8 +76,10 @@ class TreeRoleMapper {
       const verbId = act.verbId;
       if (!verbId) continue;
 
-      // Suppress all roles for stative predicates in passive voice
-      if (act.isPassive && stativeSet) {
+      // Suppress all roles for stative predicates in passive voice.
+      // Exception: modal + passive = deontic obligation ("shall be composed of"),
+      // NOT stative description. Modality overrides stative suppression.
+      if (act.isPassive && stativeSet && !act.modality) {
         const verbLc = (act.verb || '').toLowerCase();
         const lemmaLc = (act.lemma || '').toLowerCase();
         if (stativeSet.has(verbLc) || stativeSet.has(lemmaLc)) continue;

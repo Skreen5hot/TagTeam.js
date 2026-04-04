@@ -127,6 +127,26 @@ const IRREGULAR_LEMMAS = {
   'transported': 'transport',
   'located': 'locate',
   'based': 'base',
+  'composed': 'compose',
+  'proposed': 'propose',
+  'opposed': 'oppose',
+  'imposed': 'impose',
+  'disposed': 'dispose',
+  'exposed': 'expose',
+  'supposed': 'suppose',
+  'excused': 'excuse',
+  'refused': 'refuse',
+  'accused': 'accuse',
+  'revised': 'revise',
+  'exercised': 'exercise',
+  'recognized': 'recognize',
+  'organized': 'organize',
+  'authorized': 'authorize',
+  'characterized': 'characterize',
+  'utilized': 'utilize',
+  'comprised': 'comprise',
+  'constituted': 'constitute',
+  'prescribed': 'prescribe',
   // VBZ forms where -es stripping over-truncates (stem ends in 'e')
   'agrees': 'agree',
   'advises': 'advise',
@@ -448,7 +468,13 @@ class TreeActExtractor {
       act.actualityStatus = modal.actualityStatus;
       if (modal.deonticType) act.deonticType = modal.deonticType;
       // Reconstruct source text for DirectiveExtractor
-      act.sourceText = modal.modalVerb + ' ' + word;
+      // Include aux:pass ("be") for passive modals: "shall be composed"
+      const auxPassChild = children.find(c => c.label === 'aux:pass');
+      if (auxPassChild) {
+        act.sourceText = modal.modalVerb + ' ' + auxPassChild.word + ' ' + word;
+      } else {
+        act.sourceText = modal.modalVerb + ' ' + word;
+      }
 
       // Subject-level negation flip: if isNegated (from "No X shall Y") but
       // _detectModality didn't catch the negation, flip modality here
