@@ -1,108 +1,175 @@
 # Fandaws HIRI Integration Requirements for TagTeam.js
 
-**Version**: 1.0
-**Date**: 2026-03-31
+**Version**: 2.0
+**Date**: 2026-04-06
 **From**: TagTeam NLP Team
 **To**: Fandaws Graph Team
-**Status**: Ready for implementation
+**Status**: Spec aligned — awaiting Phase F-0 deliverables
+**Previous**: v1.0 (2026-03-31) — superseded after Fandaws team review
+
+---
+
+## Revision History
+
+| Version | Date | Change |
+|---------|------|--------|
+| 1.0 | 2026-03-31 | Initial spec — single mixed request |
+| 2.0 | 2026-04-06 | Split request into Entity Dictionary + Process Hierarchy + Selectional Restrictions per Fandaws team review. Removed rdfs:domain/range on entity terms. Dropped skos:notation compound flag. Added Role-to-Property mapping. Corrected BFO event-centric architecture description. |
 
 ---
 
 ## 1. Executive Summary
 
-TagTeam.js is a deterministic semantic parser that converts natural language into BFO/CCO-compliant JSON-LD graphs. It currently achieves **80% pass rate** on a strict SHACL-validated legal corpus (CMS-DHS Data Exchange MOA, 40 sentences).
+TagTeam.js is a deterministic semantic parser that converts natural language into BFO/CCO-compliant JSON-LD graphs. It models actions as **BFO Process nodes** (IntentionalAct) with participant roles via `bfo:inheres_in` and `bfo:realized_in` — not as direct Subject→Verb→Object property edges.
 
-The remaining 20% gap is caused by the parser's dependency tree model (85.3% UAS) silently dropping entities and misassigning roles. Rather than improving the parser model (expensive, diminishing returns), we propose integrating the Fandaws knowledge graph as a **top-down correction signal** that compensates for parser errors at every downstream layer.
+Current metrics: Entity F1 93.1%, Role F1 83.0%, ISA corpus 80% pass rate (40 sentences, SHACL-validated).
 
-**What we need from Fandaws**: Per-term TTL exports with 4 key properties, accessible via HIRI content-addressed atoms on IPFS.
+**What we need from Fandaws**: Three separate TTL exports — an Entity Dictionary, a Process Class Hierarchy, and Selectional Restriction vocabulary — accessible via HIRI content-addressed atoms.
 
-**Expected impact**: Entity typing accuracy from ~70% to ~92%. Overall ISA pass rate from 80% to ~92%.
+**Expected impact**: Entity typing accuracy from ~85% to ~95%. Role F1 from 83% to ~90%.
 
 ---
 
-## 2. What TagTeam Does Today (Without Fandaws)
+## 2. What TagTeam Produces Today
+
+For the sentence *"The committee shall review and approve the proposal"*, TagTeam generates:
 
 ```
-Input: "CMS shall allow USCIS to monitor all records under CMS possession."
-
-Pipeline:
-  Tokenize → POS Tag (93.5%) → Dep Parse (85.3%) → Entity Extract → Type Guess → Role Guess → Graph
-
-Output:
-  - VerbPhrase: "allow", modalMarker: "shall", modality: "obligation"
-  - DirectiveICE: UnconditionalObligation
-  - PlanSpec: prescribedActType: "allow", prescribedAgent: CMS, prescribedPatient: "all records"
-  - Obligation RE: inheres_in CMS, fulfillmentState: Pending
+VerbPhrase (Tier 1)          → is_about → DirectiveICE
+                                            └─ prescribes → PlanSpecification
+                                                              ├─ prescribedAgent → Organization_Committee
+                                                              ├─ prescribedPatient → Entity_Proposal
+                                                              └─ prescribedActType: "review"
+                                            └─ ← is_prescribed_by ─ Obligation
+                                                                      ├─ inheres_in → Organization_Committee
+                                                                      └─ fulfillmentState: Pending
 ```
 
-Every decision is bottom-up from syntax. When the parser gets it wrong, there is no external signal to recover.
+For non-modal sentences, TagTeam produces:
+```
+IntentionalAct: "arrested"
+  AgentRole    → inheres_in → Person_Officer    → realized_in → Act_arrested
+  PatientRole  → inheres_in → Person_Suspect    → realized_in → Act_arrested
+  LocationRole → inheres_in → Entity_Station    → realized_in → Act_arrested
+```
+
+**Key**: Actions are modeled as Process nodes (BFO-compliant event-centric architecture), not as property edges between entities. Role nodes are BFO Roles that inhere in entities and are realized in processes.
 
 ---
 
 ## 3. What We Need From Fandaws
 
-### 3.1 Per-Term Data (Required)
+### 3.1 Entity Dictionary (T-Box + A-Box)
 
-For each term in the Fandaws graph, we need **4 properties**:
+Classes and named individuals with labels for ontology-driven entity type promotion.
 
-| Property | RDF Predicate | Example | Purpose |
-|----------|--------------|---------|---------|
-| **Canonical label** | `rdfs:label` | "Centers for Medicare & Medicaid Services" | Primary match target |
-| **Alternative labels** | `skos:altLabel` | "CMS", "Centers for Medicare", "CMMS" | Acronym/abbreviation matching |
-| **BFO/CCO type** | `rdf:type` | `cco:GovernmentOrganization` | Entity classification |
-| **Domain/Range** | `rdfs:domain` / `rdfs:range` | `domain: cco:Agent`, `range: cco:InformationContentEntity` | Selectional restrictions for role assignment |
+| Property | RDF Predicate | Required | Purpose |
+|----------|--------------|----------|---------|
+| **Canonical label** | `rdfs:label` | Yes | Primary match target |
+| **Alternative labels** | `skos:altLabel` | Yes | Acronyms, abbreviations, inflected forms |
+| **BFO/CCO type** | `rdf:type` | Yes | Entity classification |
+| **Superclass chain** | `rdfs:subClassOf` | Yes | Type inference and hierarchy walking |
 
-### 3.2 Per-Term Data (Optional, High Value)
-
-| Property | RDF Predicate | Example | Purpose |
-|----------|--------------|---------|---------|
-| Compound term flag | `skos:notation` or custom | "system security assessment" | NER boundary anchoring |
-| Superclass chain | `rdfs:subClassOf` | `GovernmentOrganization → Organization → Agent` | Type inference |
-| Related terms | `skos:related` | CMS ↔ USCIS ↔ DHS | Coreference hints |
-
-### 3.3 Delivery Format
-
-**Option A (Preferred): Per-domain TTL files**
-
+**Example — T-Box (Class):**
 ```turtle
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix cco:  <https://www.commoncoreontologies.org/> .
-@prefix hiri: <https://hiri.fandaws.com/> .
-
-hiri:abc123def456
-    a cco:GovernmentOrganization ;
-    rdfs:label "Centers for Medicare & Medicaid Services" ;
-    skos:altLabel "CMS", "Centers for Medicare" ;
-    rdfs:domain cco:Agent .
-
-hiri:789ghi012jkl
-    a cco:InformationContentEntity ;
-    rdfs:label "Data Exchange Agreement" ;
-    skos:altLabel "DEA", "agreement" .
+# Government Organization — use CCO 2.0 opaque IRIs, not human-readable CURIEs
+cco:ont00001263 rdf:type owl:Class ;
+    rdfs:subClassOf cco:ont00001180 ;     # Organization
+    rdfs:label "Government Organization"@en .
 ```
 
-One TTL file per domain (legal, medical, finance, etc.) with all terms for that domain.
-
-**Option B: IPFS Gateway API**
-
-```
-GET https://gateway.fandaws.com/hiri/{content-hash}
-→ Returns single TTL atom for that term
+**Example — A-Box (Named Individual):**
+```turtle
+hiri:abc123def456 rdf:type owl:NamedIndividual , cco:ont00001263 ;
+    rdfs:label "Centers for Medicare & Medicaid Services"@en ;
+    skos:altLabel "CMS"@en , "Centers for Medicare"@en .
 ```
 
-We will use both: TTL files for build-time compilation, IPFS for runtime on-demand resolution.
+**CCO 2.0 IRI Reference** (verified from published CCO OWL):
+
+| Human Name | CCO 2.0 Opaque IRI |
+|-----------|-------------------|
+| Person | `cco:ont00001262` |
+| Organization | `cco:ont00001180` |
+| Agent | `cco:ont00001017` |
+| IntentionalAct | `cco:ont00000228` |
+| Artifact | `cco:ont00000995` |
+| InformationContentEntity | `cco:ont00000958` |
+| InformationBearingEntity | `cco:ont00000253` |
+| Act | `cco:ont00000005` |
+| Role | `bfo:BFO_0000023` |
+
+**Note**: Entity terms do NOT carry `rdfs:domain` or `rdfs:range`. Those properties belong exclusively on object properties, not on classes or individuals.
+
+### 3.2 Process Class Hierarchy
+
+The Act/Process subtree with full `rdfs:subClassOf` chains, enabling TagTeam to classify verb lemmas into BFO-compliant process types.
+
+| Property | RDF Predicate | Required | Purpose |
+|----------|--------------|----------|---------|
+| **Class label** | `rdfs:label` | Yes | Verb lemma matching |
+| **Alternative labels** | `skos:altLabel` | Yes | Inflected forms ("provided", "providing") |
+| **Superclass chain** | `rdfs:subClassOf` | Yes | Act classification hierarchy |
+
+**Example:**
+```turtle
+# Act of Transfer — CCO 2.0 opaque IRIs
+cco:ont00000387 rdf:type owl:Class ;
+    rdfs:subClassOf cco:ont00000228 ;     # IntentionalAct
+    rdfs:label "Act of Transfer"@en ;
+    skos:altLabel "transfer"@en , "provide"@en , "deliver"@en .
+```
+
+### 3.3 Selectional Restriction Vocabulary
+
+OWL restrictions on Process classes that declare the allowed BFO types for participants. This enables top-down validation of bottom-up role assignments.
+
+| Property | RDF Predicate | Purpose |
+|----------|--------------|---------|
+| **Agent type** | `cco:has_agent_type` | What BFO class can perform this act |
+| **Patient type** | `cco:has_patient_type` | What BFO class this act is performed on |
+
+**Example:**
+```turtle
+# Selectional restrictions on Act of Transfer — CCO 2.0 opaque IRIs
+cco:ont00000387 rdf:type owl:Class ;
+    cco:has_agent_type cco:ont00001017 ;    # Agent
+    cco:has_patient_type cco:ont00000958 .  # InformationContentEntity
+```
+
+When TagTeam's parser assigns AgentRole to an entity, it can validate: "Is this entity's type a subclass of `cco:ont00001017` (Agent)?" If not, the role assignment may be incorrect.
+
+### 3.4 Role-to-Property Mapping
+
+Fandaws will provide a supplementary mapping dictionary that aligns NLP semantic roles to their correct CCO/BFO object properties. This ensures TagTeam emits ontologically correct edges.
+
+| NLP Role | CCO/BFO Property | Verified IRI | Status in TagTeam |
+|----------|-----------------|-------------|-------------------|
+| AgentRole | `has_agent` | `cco:ont00001833` | In @context |
+| PatientRole | `has_patient` | *(awaiting Fandaws IRI)* | Not yet in @context |
+| InstrumentRole | `has_instrument` | *(awaiting Fandaws IRI)* | Not yet in @context |
+| LocationRole | `has_site` | *(awaiting Fandaws IRI)* | Not yet in @context |
+| RecipientRole | `has_recipient` | `cco:ont00001922` | In @context |
+| Theme/Affected | `affects` | `cco:ont00001834` | In @context |
+| Participant (generic) | `has_participant` | `bfo:BFO_0000057` | In @context |
+| Obligation bearer | `inheres_in` | `bfo:BFO_0000197` | In @context |
+| Role realization | `realized_in` | `bfo:BFO_0000054` | In @context |
+| Role bearing (inverse) | `is_bearer_of` | `bfo:BFO_0000196` | In @context |
+
+**Action required from Fandaws**: Confirm the canonical CCO 2.0 opaque IRIs for `has_patient`, `has_instrument`, and `has_site`. TagTeam will add these to the @context once confirmed.
+
+**Dual emission**: TagTeam will emit both:
+1. **Role nodes** (BFO pattern): `Role → inheres_in → Entity, realized_in → Act` — carries parse confidence
+2. **Direct edges** (CCO pattern): `Act → cco:has_agent → Entity` — consumable by OWL reasoners without traversing intermediaries
 
 ---
 
-## 4. How TagTeam Will Use It
+## 4. Build-Time Compilation
 
-### 4.1 Build-Time Compilation (One-Time)
-
-We compile the Fandaws TTL exports into two artifacts that ship with the TagTeam bundle:
+TagTeam compiles Fandaws TTL exports into two artifacts shipped with the bundle:
 
 ```
-Fandaws TTL files (150K terms)
+Fandaws TTL files
     │
     ▼  TagTeam Compiler Script
     │
@@ -112,108 +179,55 @@ Fandaws TTL files (150K terms)
     │
     └── core-vocabulary.json (~500KB)
           Top 2,000 terms by frequency
-          { hiri, label, altLabels[], type, domain, range }
+          { hiri, label, altLabels[], type, superclassChain[] }
           Purpose: covers ~80% of lookups without network
 ```
 
-### 4.2 Runtime Lookup (Per-Sentence)
+## 5. Runtime Lookup
 
 ```
-1. Parse sentence (15ms) → extract entity candidates: ["CMS", "USCIS", "records"]
+1. Parse sentence (15ms) → extract entity candidates
 
 2. Bloom filter check (<1ms per term):
    "CMS"     → MAYBE (check cache)
    "records"  → NO (common noun, skip)
-   "USCIS"   → MAYBE (check cache)
 
-3. Cache lookup (<1ms):
+3. Cache / core-vocabulary lookup (<1ms):
    "CMS" → HIT: { type: GovernmentOrganization, hiri: "hiri:abc123..." }
 
 4. IPFS fetch (50-200ms, cache miss only):
    Unknown term → fetch HIRI atom → cache result
 
 5. Enrich graph:
-   - denotesType: "GovernmentOrganization" (not guessed "Entity")
-   - Tier 2 IRI: use HIRI address directly
-   - Role validation: if "provide" has range ICE, "data" gets PatientRole
+   - Tier 2 type: cco:ont00001263 / Government Organization (not guessed "Entity")
+   - Role validation: has_agent_type = cco:ont00001017 (Agent) → CMS is Agent ✓
 ```
-
-### 4.3 What Each Property Fixes
-
-| Fandaws Property | TagTeam Problem It Fixes | Current Failure Mode |
-|-----------------|-------------------------|---------------------|
-| `rdfs:label` | `_findTier2ByLabel` resolution | "data" doesn't match Tier 2 "datum" |
-| `skos:altLabel` | Acronym entity recognition | "CMS" not recognized without hardcoded list |
-| `rdf:type` | Entity typing accuracy (~70%) | "application" typed as "Artifact" instead of "InformationContentEntity" |
-| `rdfs:domain/range` | Role assignment (F1 57.8%) | "data" gets AgentRole instead of PatientRole for "receive" |
-| Compound terms | NER boundary accuracy | "system security assessments" fragmented or over-chunked |
-
----
-
-## 5. IPFS / HIRI Requirements
-
-### 5.1 Gateway Endpoint
-
-TagTeam needs an HTTPS gateway endpoint that resolves HIRI content hashes to TTL atoms:
-
-```
-GET https://gateway.fandaws.com/hiri/{hash}
-Content-Type: text/turtle
-
-Response: Single TTL term definition (rdfs:label, skos:altLabel, rdf:type, rdfs:domain/range)
-```
-
-### 5.2 Latency
-
-- **Target**: <200ms per lookup (p95)
-- **Acceptable**: <500ms (graceful degradation — TagTeam operates in async mode)
-- **Offline fallback**: If IPFS is unavailable, TagTeam falls back to bloom filter + core vocabulary (no network required)
-
-### 5.3 CORS
-
-The gateway must return `Access-Control-Allow-Origin: *` headers for browser-based TagTeam usage.
-
-### 5.4 Batch API (Optional, Nice to Have)
-
-```
-POST https://gateway.fandaws.com/hiri/batch
-Body: { "terms": ["CMS", "USCIS", "SAVE Program"] }
-
-Response: { "results": [ { hiri, label, altLabels, type }, ... ] }
-```
-
-This avoids N sequential lookups for sentences with many entity candidates.
 
 ---
 
 ## 6. Domain Coverage Priority
 
-TagTeam's current test corpus is federal regulatory text (CMS-DHS MOA). Priority domains for initial integration:
+| Priority | Domain | Estimated Terms |
+|----------|--------|----------------|
+| 1 | **US Government** — agency names, acronyms | ~500 |
+| 2 | **Legal/Regulatory** — agreement types, compliance terms | ~2,000 |
+| 3 | **Healthcare** — programs, conditions, procedures | ~5,000 |
+| 4 | **General** — common nouns with BFO type annotations | ~50,000 |
 
-| Priority | Domain | Key Terms | Estimated Count |
-|----------|--------|-----------|----------------|
-| 1 | **US Government** | Agency names, acronyms (CMS, DHS, USCIS, CBP, OMB) | ~500 |
-| 2 | **Legal/Regulatory** | Agreement types, compliance terms, statutory references | ~2,000 |
-| 3 | **Healthcare** | Programs (SAVE, Medicare, Medicaid), conditions, procedures | ~5,000 |
-| 4 | **General** | Common nouns with BFO type annotations | ~50,000 |
-| 5 | **Full graph** | All 150K terms | All |
-
-Priorities 1-2 are needed for the ISA corpus to reach 85%+. Priority 3 for the broader SMA use case.
+Priorities 1-2 are needed for the ISA corpus to reach 90%+.
 
 ---
 
 ## 7. Integration Timeline
 
-| Phase | What | Who | When |
-|-------|------|-----|------|
-| **F-0** | Fandaws exports Priority 1-2 TTL files (gov + legal) | Fandaws team | Week 1 |
-| **F-1** | TagTeam builds compiler (TTL → bloom + core vocab) | TagTeam team | Week 1-2 |
-| **F-2** | TagTeam builds async resolver (bloom → cache → IPFS) | TagTeam team | Week 2-3 |
-| **F-3** | Wire into entity extraction (ontology-aware spans) | TagTeam team | Week 3-4 |
-| **F-4** | Wire into type assignment (BFO/CCO from graph) | TagTeam team | Week 3-4 |
-| **F-5** | Wire into selectional preferences (domain/range) | TagTeam team | Week 4-5 |
-| **F-6** | Wire into `_findTier2ByLabel` (canonical + altLabels) | TagTeam team | Week 3 |
-| **F-7** | Domain manifests + production tuning | Both teams | Week 5 |
+| Phase | What | Who | Dependency |
+|-------|------|-----|------------|
+| **F-0** | Fandaws exports Priority 1-2 TTL files (Entity Dictionary + Process Hierarchy + Selectional Restrictions) | Fandaws | — |
+| **F-1** | TagTeam builds compiler (TTL → bloom + core vocab) | TagTeam | F-0 |
+| **F-2** | TagTeam adds CCO direct edges to Act nodes (`has_agent`, `has_patient`, `has_instrument`, `has_site`) | TagTeam | F-0 (for IRI confirmation) |
+| **F-3** | Wire entity type promotion from Fandaws dictionary | TagTeam | F-1 |
+| **F-4** | Wire selectional restriction validation into role mapper | TagTeam | F-1 |
+| **F-5** | Domain manifests + production tuning | Both | F-3, F-4 |
 
 **F-0 is the critical dependency.** TagTeam cannot begin F-1 without TTL files from Fandaws.
 
@@ -221,31 +235,30 @@ Priorities 1-2 are needed for the ISA corpus to reach 85%+. Priority 3 for the b
 
 ## 8. Validation Criteria
 
-Once integrated, TagTeam will validate against:
-
-1. **ISA Corpus**: 40 sentences from CMS-DHS MOA → target ≥85% pass (currently 80%)
-2. **Entity typing accuracy**: Spot-check 100 entities → target ≥92% correct BFO type
-3. **Role F1**: Gold evaluation 200 sentences → target ≥72% (currently 57.8%)
-4. **NER boundary**: Entity fragmentation tests → target ≥95% correct boundaries
-5. **Latency**: p50 < 25ms (sync, bloom+cache), p95 < 300ms (async, IPFS miss)
+| Metric | Current | Target | Method |
+|--------|---------|--------|--------|
+| Entity typing accuracy | ~85% | ≥95% | Spot-check 100 entities |
+| Role F1 | 83.0% | ≥90% | Gold evaluation (200 sentences) |
+| ISA corpus pass rate | 80% | ≥90% | 40 SHACL-validated sentences |
+| NER boundary accuracy | 93.1% | ≥95% | Entity fragmentation tests |
+| Latency (sync) | 15ms | <25ms | p50 with bloom+cache |
 
 ---
 
-## 9. Questions for Fandaws Team
+## 9. TagTeam Action Items (Pre-Fandaws)
 
-1. **TTL export timeline**: When can Priority 1-2 domain files (gov + legal, ~2,500 terms) be exported?
-2. **HIRI hash format**: What is the content-addressing scheme? SHA-256? CID v1?
-3. **IPFS gateway**: Is there an existing HTTPS gateway, or does one need to be provisioned?
-4. **altLabel coverage**: Do all terms have `skos:altLabel` for acronyms/abbreviations, or only some?
-5. **domain/range completeness**: What percentage of properties have explicit `rdfs:domain` and `rdfs:range`?
-6. **Update frequency**: How often do TTL files change? (Determines whether we can cache aggressively)
+Before Phase F-0 deliverables arrive, TagTeam will:
+
+1. **Add missing CCO properties to @context**: `has_patient`, `has_instrument`, `has_site` — pending IRI confirmation from Fandaws
+2. **Emit dual pattern**: Role nodes (for confidence) + CCO direct edges on IntentionalAct nodes (for OWL reasoner consumption)
+3. **Build compiler scaffolding**: TTL → bloom filter + core vocabulary JSON (can be tested with constitution.ttl)
 
 ---
 
 ## 10. Contact
 
-For technical questions about the TagTeam integration:
 - **Repository**: `github.com/Skreen5hot/TagTeam.js` (branch: `dev`)
 - **Key files**: `src/graph/SemanticGraphBuilder.js`, `src/ontology/OntologyTextTagger.js`
 - **Test runner**: `dist/isa-test-runner-cms-dhs.html` (40-sentence ISA corpus)
-- **Spec**: `docs/development/PLANNED_WORK.md` v3.0, Section "Tier 2b: Fandaws HIRI Integration"
+- **Spec**: `docs/development/PLANNED_WORK.md` v3.0
+- **Developer Guide**: `docs/guides/DEVELOPER_GUIDE.md`
