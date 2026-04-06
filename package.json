@@ -1,6 +1,6 @@
 {
   "name": "tagteam-js",
-  "version": "4.0.0",
+  "version": "7.0.0",
   "description": "Deterministic semantic parser - BFO-compatible ontology system",
   "main": "dist/tagteam.js",
   "bin": {

@@ -363,6 +363,8 @@ Phase 5 makes TagTeam the NLParser *for* Fandaws. This requires TagTeam to relia
 - Role F1 ≥ 75% (relaxed from 85% — sufficient for adapter MVP)
 - Coordination entity accuracy ≥ 90% on coord-keep baselines
 
+**Status update (2026-04-06):** Three of four prerequisites are now met. `shall` modality works (10 single-word + 3 multi-word modals). Role F1 is 83.0% (exceeds 75% threshold). Multi-word entity fragmentation addressed by ComplexDesignatorDetector + CDD ontology awareness. Remaining gap: coordination entity accuracy on coord-keep baselines (§5.1b) — "Customs and Border Protection" pattern still fails. Phase 5 is unblocked pending Fandaws Phase F-0 TTL deliverables — see `docs/integration/fandaws-hiri-integration-requirements.md` v2.0.
+
 **AC list preserved for when work resumes:**
 
 | AC | Description | Effort |
@@ -538,15 +540,14 @@ Properties:
 | POS accuracy | ≥96% | 93.5% | -2.5% | Single-layer perceptron ceiling |
 | UAS | ≥90% | 85.3% | -4.7% | Single-layer perceptron ceiling |
 | LAS | ≥88% | 83.2% | -4.8% | Single-layer perceptron ceiling |
-| Entity F1 | ≥88% | 90.3% | ✅ +2.3% | Exceeded target |
-| Role F1 | ≥85% | 59.3% | -25.7% | Oblique roles, coordination, passives |
+| Entity F1 | ≥88% | 93.1% | ✅ +5.1% | Exceeded target (updated 2026-04-06) |
+| Role F1 | ≥85% | 83.0% | -2.0% | Adjunct PP suppression, coordination edge cases (updated 2026-04-06) |
 | p50 latency | <10ms | 15.95ms | +5.95ms | Two-tier ICE overhead |
 
-**Role F1 gap analysis** (from EVALUATION_REPORT.md):
-- Oblique role assignment: primary driver of missed roles
-- Coordination: agent/patient sharing across conjuncts inconsistent
-- Passive voice: obl:agent detection works but some edge cases fail
-- Improvement path: targeted fixes per pattern type, not architectural change
+**Role F1 improvement history:**
+- 57.8% (2026-02-18) → 78.3% (2026-03-31) → 83.0% (2026-04-01)
+- Improvement driven by: TT-SPEC-RDM-A (ditransitive/passive), RDM-B (VP coordination), RDM-C (adjunct suppression), ENT-A (coordination splitting)
+- Remaining -2.0% gap: prefix subordination ("if X, Y"), relative clauses, embedded clause detection — architectural limitations (see §5.3)
 
 ### 5.1b Coordination Entity Boundary Failure (2026-03-26)
 

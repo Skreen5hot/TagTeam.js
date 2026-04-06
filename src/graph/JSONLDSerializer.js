@@ -191,6 +191,7 @@ class JSONLDSerializer {
       is_part_of:               { '@id': 'bfo:BFO_0000176',  '@type': '@id' },
       located_in:               { '@id': 'bfo:BFO_0000171',  '@type': '@id' },
       occupies_temporal_region:  { '@id': 'bfo:BFO_0000199',  '@type': '@id' },
+      occurs_in:                { '@id': 'bfo:BFO_0000066',  '@type': '@id' },       // ✚ Fandaws integration
 
       // ═══════ CCO 2.0 Object Properties (★ = fixed in audit v2.2, ✚ = added) ═══════
       is_about:              { '@id': 'cco:ont00001808',  '@type': '@id' },
