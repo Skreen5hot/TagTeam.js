@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-04-04
+ * Date: 2026-04-06
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -309731,6 +309731,7 @@ class JSONLDSerializer {
       is_part_of:               { '@id': 'bfo:BFO_0000176',  '@type': '@id' },
       located_in:               { '@id': 'bfo:BFO_0000171',  '@type': '@id' },
       occupies_temporal_region:  { '@id': 'bfo:BFO_0000199',  '@type': '@id' },
+      occurs_in:                { '@id': 'bfo:BFO_0000066',  '@type': '@id' },       // ✚ Fandaws integration
 
       // ═══════ CCO 2.0 Object Properties (★ = fixed in audit v2.2, ✚ = added) ═══════
       is_about:              { '@id': 'cco:ont00001808',  '@type': '@id' },
@@ -330618,8 +330619,8 @@ class SemanticGraphBuilder {
     /**
      * Version information
      */
-    version: '4.0.0',
-    BUILD: 'build 438 | 466edf2 | 2026-04-04T21:45:03.267Z',
+    version: '7.0.0',
+    BUILD: 'build 439 | 8a44253 | 2026-04-06T21:02:14.404Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
