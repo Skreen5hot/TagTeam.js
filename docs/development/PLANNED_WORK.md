@@ -616,6 +616,34 @@ These are **known and accepted** limitations that require major architectural wo
 
 **Component test ceiling:** 89/100 (89%) — 11 failures are architectural, not fixable without new clause boundary infrastructure.
 
+### 5.3b OntologyTextTagger Matching Gaps (2026-04-06)
+
+**Severity:** MEDIUM — affects ontology matching recall for inflected multi-word labels
+**Status:** Documented, deferred to Fandaws integration phase
+
+The OntologyTextTagger match pipeline runs in this order:
+
+1. **Exact match** — whole-phrase word-boundary regex against `rdfs:label`, `skos:prefLabel`
+2. **Alias match** — same against `skos:altLabel`, `skos:notation`
+3. **Hidden label match** — same against `skos:hiddenLabel` (typo tolerance)
+4. **Lemma match** — morphological normalization (plurals, verb inflections, possessives)
+
+**Gap 1: Multi-word phrase lemmatization.** The lemmatizer normalizes **single-word** labels only. "guns" → "gun" matches label "Gun", but "hand guns" does NOT match label "Hand Gun" because the tagger treats the multi-word label as an atomic phrase and never tries lemmatizing individual tokens within it. Affects all multi-word CCO labels where the input contains an inflected form: "hand guns" vs "Hand Gun", "police officers" vs "Police Officer", etc.
+
+**Gap 2: Colloquial hypernyms.** The tagger matches only surface forms that appear as labels in the ontology. "gun" does not match "Hand Gun" or "Firearm" because "gun" is not a label on any CCO class. The tagger has no synonym/hypernym expansion. This is by design — synonym expansion belongs in the downstream ontology reasoner (Fandaws), not in the NLP parser.
+
+**Gap 3: Confidence score semantics.** Confidence = `(matched keywords) / (total keywords on class)`. When using `rdfs:label` as the sole keyword property, most classes have exactly 1 keyword, so every match scores 1.0. The score measures keyword coverage, not match quality (exact vs lemma vs partial). Including `skos:altLabel` in the keyword property increases denominator and produces a range of scores, but the metric still does not distinguish match type.
+
+**Affected test patterns:**
+- "The man has hand guns" → Tier 2 label is "hand gun" (lemmatized by entity extractor) but tagger scans original text where "hand guns" fails whole-phrase match against "Hand Gun"
+- "He has a gun" → no CCO class has label "gun" — zero match
+
+**Fix paths (not prioritized):**
+1. Multi-word lemmatization: when a multi-word label fails exact match, try lemmatizing the head noun (last token) and re-match
+2. Token-level fallback: if whole-phrase match fails, try matching individual tokens from the label against the text (high false-positive risk — needs precision guard)
+3. Ontology-side: encourage domain TTL authors to add `skos:altLabel` entries for common inflections and colloquial forms
+4. Defer to Fandaws: the parser produces entity labels; Fandaws performs fuzzy ontology resolution with OWL reasoning
+
 ### 5.4 ISA Corpus Failures (2026-03-30)
 
 **Source:** ISA Test Runner (`dist/isa-test-runner-cms-dhs.html`) — 40 sentences from CMS-DHS Data Exchange MOA, validated with `TagTeam.buildGraph()` + SHACL shape validation.

@@ -377,6 +377,11 @@ When a verb matches an act class that is a subclass of `tagteam:PerformativeAct`
 
 For full OWL reasoning, pass the output graph to Fandaws.
 
+**Known matching gaps** (see `docs/development/PLANNED_WORK.md` §5.3b for details):
+- **Multi-word phrase lemmatization:** "hand guns" does NOT match label "Hand Gun" — the lemmatizer normalizes single-word labels only, not individual tokens within multi-word phrases
+- **No synonym/hypernym expansion:** "gun" does not match "Firearm" or "Hand Gun" — the tagger matches surface forms only, not semantic equivalents
+- **Mitigation:** add `skos:altLabel` entries for common inflected and colloquial forms in your domain TTL
+
 ### 4.6 Worked Example: Contract Law Domain
 
 **Step 1 — Write the TTL** (`ontologies/examples/contract-law.ttl`):
