@@ -143,20 +143,23 @@ When TagTeam's parser assigns AgentRole to an entity, it can validate: "Is this 
 
 Fandaws will provide a supplementary mapping dictionary that aligns NLP semantic roles to their correct CCO/BFO object properties. This ensures TagTeam emits ontologically correct edges.
 
-| NLP Role | CCO/BFO Property | Verified IRI | Status in TagTeam |
+| NLP Role | BFO/CCO Property | Verified IRI | Status in TagTeam |
 |----------|-----------------|-------------|-------------------|
 | AgentRole | `has_agent` | `cco:ont00001833` | In @context |
-| PatientRole | `has_patient` | *(awaiting Fandaws IRI)* | Not yet in @context |
-| InstrumentRole | `has_instrument` | *(awaiting Fandaws IRI)* | Not yet in @context |
-| LocationRole | `has_site` | *(awaiting Fandaws IRI)* | Not yet in @context |
 | RecipientRole | `has_recipient` | `cco:ont00001922` | In @context |
-| Theme/Affected | `affects` | `cco:ont00001834` | In @context |
-| Participant (generic) | `has_participant` | `bfo:BFO_0000057` | In @context |
-| Obligation bearer | `inheres_in` | `bfo:BFO_0000197` | In @context |
-| Role realization | `realized_in` | `bfo:BFO_0000054` | In @context |
-| Role bearing (inverse) | `is_bearer_of` | `bfo:BFO_0000196` | In @context |
+| PatientRole / ThemeRole / InstrumentRole | `has_participant` | `obo:BFO_0000057` | In @context |
+| LocationRole | `occurs_in` | `obo:BFO_0000066` | **Not yet in @context** |
+| Obligation/Disposition bearer | `inheres_in` | `obo:BFO_0000197` | In @context |
+| Role realization | `realized_in` | `obo:BFO_0000054` | In @context |
+| Role bearing (inverse) | `is_bearer_of` | `obo:BFO_0000196` | In @context |
 
-**Action required from Fandaws**: Confirm the canonical CCO 2.0 opaque IRIs for `has_patient`, `has_instrument`, and `has_site`. TagTeam will add these to the @context once confirmed.
+**Design rationale** (per Fandaws team correction, 2026-04-06):
+- CCO provides specific properties only for Agent (`has_agent`) and Recipient (`has_recipient`)
+- Patient, Theme, and Instrument all use the generic BFO `has_participant` (`BFO_0000057`) — CCO does not define separate `has_patient` or `has_instrument` properties
+- Location uses BFO `occurs_in` (`BFO_0000066`), not a CCO-specific `has_site`
+- `inheres_in` uses `BFO_0000197` (CCO 2.0 numbering), not `BFO_0000052` (BFO 2.0 OWL numbering) — CCO renumbered this property
+
+**Action required**: TagTeam must add `occurs_in` (`obo:BFO_0000066`) to the @context before Phase F-2.
 
 **Dual emission**: TagTeam will emit both:
 1. **Role nodes** (BFO pattern): `Role → inheres_in → Entity, realized_in → Act` — carries parse confidence
@@ -249,8 +252,8 @@ Priorities 1-2 are needed for the ISA corpus to reach 90%+.
 
 Before Phase F-0 deliverables arrive, TagTeam will:
 
-1. **Add missing CCO properties to @context**: `has_patient`, `has_instrument`, `has_site` — pending IRI confirmation from Fandaws
-2. **Emit dual pattern**: Role nodes (for confidence) + CCO direct edges on IntentionalAct nodes (for OWL reasoner consumption)
+1. **Add `occurs_in` to @context**: Map to `obo:BFO_0000066` — the only missing property after Fandaws IRI clarification. Agent, Recipient, Participant, inheres_in, realized_in are already present.
+2. **Emit dual pattern**: Role nodes (for parse confidence) + BFO/CCO direct edges on IntentionalAct nodes (for OWL reasoner consumption): `has_agent`, `has_participant`, `has_recipient`, `occurs_in`
 3. **Build compiler scaffolding**: TTL → bloom filter + core vocabulary JSON (can be tested with constitution.ttl)
 
 ---
